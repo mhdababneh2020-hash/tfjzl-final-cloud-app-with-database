@@ -51,6 +51,22 @@
                 {% endfor %}
             </div>
             <!-- Course detail template changes go here -->
+            {% if user.is_authenticated %}
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#exam">Start Exam</button>
+            <div id="exam" class="collapse">
+                <form method="post">
+                    {% csrf_token %}
+                    {% for question in course.question_set.all %}
+                        <p><strong>{{ question.content }}</strong></p>
+                        {% for choice in question.choice_set.all %}
+                            <input type="checkbox" name="choice" value="{{ choice.id }}"> {{ choice.content }}<br>
+                        {% endfor %}
+                    {% endfor %}
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </form>
+            </div>
+            
+            {% endif %}
     </div>
 </body>
 </html>
